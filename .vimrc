@@ -20,4 +20,6 @@ if (&lines > 30)
 	set winminheight=6
 endif
 
+autocmd Filetype haskell setlocal softtabstop=4 expandtab
+
 command Develop edit scp://stjepan@real-eniac//home/stjepan/Develop/
