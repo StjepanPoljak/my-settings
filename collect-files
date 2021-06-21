@@ -1,0 +1,11 @@
+.bash_profile
+.bashrc
+.local/bin/accuweather
+.vimrc
+.Xdefaults
+.xinitrc
+.xmonad/xmonad.hs
+.xmonad/lib/XRandr.hs
+.xmonad/lib/XMobar.hs
+.xmonad/lib/XRDB.hs
+.xmonad/lib/XString.hs

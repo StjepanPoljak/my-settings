@@ -1,0 +1,26 @@
+#/bin/sh
+
+# 1:location 2:lowcolor 3:highcolor
+
+if [ -z "$1" ]; then
+	exit 1
+fi
+
+WEATHER_SITE=http://rss.accuweather.com/rss/liveweather_rss.asp
+WEATHER_DATA="`curl -s $WEATHER_SITE\?metric\=1\&locCode\=\"EUR|HR|$1\"`"
+
+CURR_TEMP=`echo "$WEATHER_DATA" \
+| sed -n "s/^\\s\\+<description>Currently in $1, HR: \\([0-9]\\+\\).*\$/\\1/p" \
+| awk '{ print $0}'`
+
+if [ "$CURR_TEMP" -le 0 ] && ! [ -z "$2" ]; then
+	echo "<fc=$2>$1 $CURR_TEMP°C</fc>"
+
+elif [ "$CURR_TEMP" -ge 30 ] && ! [ -z "$3" ]; then
+	echo "<fc=$3>$1 $CURR_TEMP°C</fc>"
+
+else
+	echo "$1 $CURR_TEMP°C"
+fi
+
+exit 0

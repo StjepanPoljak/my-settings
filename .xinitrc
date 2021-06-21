@@ -5,6 +5,6 @@ setxkbmap hr
 
 xrandr -s 848x480
 
-feh --bg-scale car_glaciers_scifi_137640_1280x720.jpg
+feh --bg-scale city_car_bridge_131980_1280x720.jpg
 
 exec xmonad
