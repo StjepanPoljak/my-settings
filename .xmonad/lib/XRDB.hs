@@ -2,6 +2,7 @@ module XRDB (
     getXRDBKey,
     fontColor,
     fontName,
+    fontSize,
     fgColor,
     bgColor,
     errColor,
@@ -39,6 +40,7 @@ getXRDBKey' a b = getXRDBKey b a
 
 fontColor   = getXRDBKey' "foreground"
 fontName    = getXRDBKey' "faceName"
+fontSize    = getXRDBKey' "faceSize"
 fgColor     = getXRDBKey' "background"
 bgColor     = getXRDBKey' "color0"
 errColor    = getXRDBKey' "color1"

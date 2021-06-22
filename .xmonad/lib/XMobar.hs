@@ -1,20 +1,24 @@
 {-# LANGUAGE FlexibleContexts #-}
 
-module XMobar (xmobar') where
+module XMobar (xmobar', xmobarBox) where
 
 import XMonad
-import XMonad.Core
 import XMonad.Layout.LayoutModifier
 import XMonad.Hooks.ManageDocks
-import XMonad.Util.Run
 import XMonad.Hooks.DynamicLog
-
-import qualified Data.Map as M
-import Control.Monad (liftM2)
 
 import XRDB
 
+xmobarBox :: String -> String
+xmobarBox str = "<box>" ++ str ++ "</box>"
+
 toggleXMobarKey (XConfig {modMask = modKey}) = (modKey, xK_b)
+
+fontSettings :: Bool -> Bool -> String -> String
+fontSettings compact xft xrdb = " -f '" ++ (if xft then "xft:" else "")
+                         ++ (fontName xrdb) ++ ":pixelsize="
+                         ++ (if compact then "12" else (fontSize xrdb))
+                         ++ "'"
 
 xmobar' :: LayoutClass l Window => XConfig l -> PP -> String
         -> IO (XConfig (ModifiedLayout AvoidStruts l))
@@ -22,7 +26,7 @@ xmobar' conf pp xrdb = statusBar ("xmobar" ++ flags)
                        pp toggleXMobarKey conf
     where flags = " -B '" ++ (bgColor xrdb) ++ "'"
                ++ " -F '" ++ (fontColor xrdb) ++ "'"
-               ++ " -f '" ++ (fontName xrdb) ++ "'"
+               ++ fontSettings True True xrdb
                ++ " -p Top"
                ++ " -d -r -v"
                ++ " -t '%UnsafeStdinReader%"
@@ -48,10 +52,12 @@ xmobar' conf pp xrdb = statusBar ("xmobar" ++ flags)
                            ++ ">Offline</fc> ]\""
                            ++ ", \"-t\", \"[ <fc=" ++ (okColor xrdb)
                            ++ "><dev> <rx>KB/<tx>KB</fc> ]\""
-                   ++ " ] 50"
+                   ++ " ] 150"
                    ++ " , Run ComX \"accuweather\" ["
                            ++ "  \"Osijek\" "
                            ++ ", \"" ++ (lowColor xrdb) ++ "\""
+                           ++ ", \"" ++ (okColor xrdb) ++ "\""
+                           ++ ", \"" ++ (warnColor xrdb) ++ "\""
                            ++ ", \"" ++ (errColor xrdb) ++ "\""
                            ++ "] \"N/A\" \"accuweather\" 36000"
                ++ " ]' "

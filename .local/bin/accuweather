@@ -1,6 +1,6 @@
 #/bin/sh
 
-# 1:location 2:lowcolor 3:highcolor
+# 1:location 2:lowcolor 3:normcolor 4:highcolor 5:extrahighcolor
 
 if [ -z "$1" ]; then
 	exit 1
@@ -13,10 +13,16 @@ CURR_TEMP=`echo "$WEATHER_DATA" \
 | sed -n "s/^\\s\\+<description>Currently in $1, HR: \\([0-9]\\+\\).*\$/\\1/p" \
 | awk '{ print $0}'`
 
-if [ "$CURR_TEMP" -le 0 ] && ! [ -z "$2" ]; then
+if [ "$CURR_TEMP" -ge 30 ] && ! [ -z "$5" ]; then
+	echo "<fc=$5>$1 $CURR_TEMP°C</fc>"
+
+elif [ "$CURR_TEMP" -ge 25 ] && ! [ -z "$4" ]; then
+	echo "<fc=$4>$1 $CURR_TEMP°C</fc>"
+
+elif [ "$CURR_TEMP" -le 10 ] && ! [ -z "$2" ]; then
 	echo "<fc=$2>$1 $CURR_TEMP°C</fc>"
 
-elif [ "$CURR_TEMP" -ge 30 ] && ! [ -z "$3" ]; then
+elif ! [ -z "$3" ]; then
 	echo "<fc=$3>$1 $CURR_TEMP°C</fc>"
 
 else
