@@ -1,4 +1,4 @@
-#/bin/sh
+#!/bin/sh
 
 # 1:location 2:lowcolor 3:normcolor 4:highcolor 5:extrahighcolor
 
